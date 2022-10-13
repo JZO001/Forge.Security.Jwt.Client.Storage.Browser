@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Forge.Security.Jwt.Client.Storage.Browser</name>
+    </assembly>
+    <members>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1">
+            <summary>Stores data into the browser's local storage</summary>
+            <typeparam name="TData">The type of the data.</typeparam>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.#ctor(Blazored.LocalStorage.ILocalStorageService)">
+            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1" /> class.</summary>
+            <param name="localStorage">The local storage.</param>
+            <exception cref="T:System.ArgumentNullException">localStorage</exception>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.ClearAsync">
+            <summary>Clears items from the storage</summary>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.ContainsKeyAsync(System.String)">
+            <summary>Determines whether the specified key exist or not.</summary>
+            <param name="key">The key.</param>
+            <returns>
+              <c>true</c> if the specified key exists; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.GetAsync">
+            <summary>Gets stored data</summary>
+            <returns>List of data</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.GetAsync(System.String)">
+            <summary>Gets the item by key</summary>
+            <param name="key">The key.</param>
+            <returns>Data or default</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.RemoveAsync(System.String)">
+            <summary>Removes an item from the storage</summary>
+            <param name="key">The key.</param>
+            <returns>True, if it was successful, otherwise, False.</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.SetAsync(System.String,`0)">
+            <summary>Sets an item</summary>
+            <param name="key">The key.</param>
+            <param name="data">The data.</param>
+        </member>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1">
+            <summary>Stores data into the browser's session storage</summary>
+            <typeparam name="TData">The type of the data.</typeparam>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.#ctor(Blazored.SessionStorage.ISessionStorageService)">
+            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1" /> class.</summary>
+            <param name="sessionStorage">The session storage.</param>
+            <exception cref="T:System.ArgumentNullException">sessionStorage</exception>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.ClearAsync">
+            <summary>Clears items from the storage</summary>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.ContainsKeyAsync(System.String)">
+            <summary>Determines whether the specified key exist or not.</summary>
+            <param name="key">The key.</param>
+            <returns>
+              <c>true</c> if the specified key exists; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.GetAsync">
+            <summary>Gets stored data</summary>
+            <returns>List of data</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.GetAsync(System.String)">
+            <summary>Gets the item by key</summary>
+            <param name="key">The key.</param>
+            <returns>Data or default</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.RemoveAsync(System.String)">
+            <summary>Removes an item from the storage</summary>
+            <param name="key">The key.</param>
+            <returns>True, if it was successful, otherwise, False.</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.SetAsync(System.String,`0)">
+            <summary>Sets an item</summary>
+            <param name="key">The key.</param>
+            <param name="data">The data.</param>
+        </member>
+    </members>
+</doc>
