@@ -4,79 +4,226 @@
         <name>Forge.Security.Jwt.Client.Storage.Browser</name>
     </assembly>
     <members>
-        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1">
-            <summary>Stores data into the browser's local storage</summary>
-            <typeparam name="TData">The type of the data.</typeparam>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase">
+            <summary>Automatically refresh the token before it expires</summary>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.#ctor(Blazored.LocalStorage.ILocalStorageService)">
-            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1" /> class.</summary>
-            <param name="localStorage">The local storage.</param>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.#ctor(Microsoft.Extensions.Logging.ILogger,Microsoft.JSInterop.IJSRuntime,Forge.Security.Jwt.Shared.Client.Api.ITokenizedApiCommunicationService,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Forge.Security.Jwt.Client.Storage.Browser.Models.StorageModeEnum,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase" /> class.</summary>
+            <param name="logger">The logger.</param>
+            <param name="jsRuntime">The js runtime.</param>
+            <param name="apiService">The API service.</param>
+            <param name="authenticationStateProvider">The authentication state provider.</param>
+            <param name="additionalData">The additional data.</param>
+            <param name="storageMode">The storage mode.</param>
+            <param name="authCoreOptions">The authentication core options.</param>
+            <param name="browserStorageOptions">The browser storage options.</param>
+            <exception cref="T:System.ArgumentNullException">logger
+            or
+            jsRuntime
+            or
+            apiService
+            or
+            authenticationStateProvider
+            or
+            additionalData
+            or
+            authCoreOptions
+            or
+            browserStorageOptions</exception>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.StartAsync(System.Threading.CancellationToken)">
+            <summary>Starts the service</summary>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>
+              Task
+            </returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.StopAsync(System.Threading.CancellationToken)">
+            <summary>Stops the service</summary>
+            <param name="cancellationToken">CancellationToken</param>
+            <returns>
+              Task
+            </returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.CallbackReceiveAuthenticationResponse(System.String)">
+            <summary>Callbacks the receive authentication response.</summary>
+            <param name="authenticationResponseStr">The authentication response string.</param>
+            <returns>
+              JSON string as a result
+            </returns>
+        </member>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase">
+            <summary>Stores data into the browser's local storage</summary>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.#ctor(Microsoft.Extensions.Logging.ILogger,Forge.Wasm.BrowserStorages.Services.Abstraction.IServiceAsync)">
+            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase" /> class.</summary>
+            <param name="logger">The logger.</param>
+            <param name="storage">The local storage.</param>
             <exception cref="T:System.ArgumentNullException">localStorage</exception>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.ClearAsync">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.ClearAsync">
             <summary>Clears items from the storage</summary>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.ContainsKeyAsync(System.String)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.ContainsKeyAsync(System.String)">
             <summary>Determines whether the specified key exist or not.</summary>
             <param name="key">The key.</param>
             <returns>
               <c>true</c> if the specified key exists; otherwise, <c>false</c>.</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.GetAsync">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.GetAsync">
             <summary>Gets stored data</summary>
             <returns>List of data</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.GetAsync(System.String)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.GetAsync(System.String)">
             <summary>Gets the item by key</summary>
             <param name="key">The key.</param>
             <returns>Data or default</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.RemoveAsync(System.String)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.RemoveAsync(System.String)">
             <summary>Removes an item from the storage</summary>
             <param name="key">The key.</param>
             <returns>True, if it was successful, otherwise, False.</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage`1.SetAsync(System.String,`0)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.SetAsync(System.String,Forge.Security.Jwt.Shared.Client.Models.ParsedTokenData)">
             <summary>Sets an item</summary>
             <param name="key">The key.</param>
             <param name="data">The data.</param>
         </member>
-        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1">
-            <summary>Stores data into the browser's session storage</summary>
-            <typeparam name="TData">The type of the data.</typeparam>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService">
+            <summary>Automatically refresh the token before it expires</summary>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.#ctor(Blazored.SessionStorage.ISessionStorageService)">
-            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1" /> class.</summary>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService},Microsoft.JSInterop.IJSRuntime,Forge.Security.Jwt.Shared.Client.Api.ITokenizedApiCommunicationService,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService" /> class.</summary>
+            <param name="logger">The logger.</param>
+            <param name="jsRuntime">The JSRuntime.</param>
+            <param name="apiService">The communication service.</param>
+            <param name="authenticationStateProvider">The authentication state provider.</param>
+            <param name="additionalData">The additional data.</param>
+            <param name="authCoreOptions">The client authentication core options.</param>
+            <param name="browserStorageOptions">The browser storage options.</param>
+        </member>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.Storage">
+            <summary>Stores data into the browser's local storage</summary>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.Storage.#ctor(Microsoft.Extensions.Logging.ILogger{Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.Storage},Forge.Wasm.BrowserStorages.Services.LocalStorage.ILocalStorageServiceAsync)">
+            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.Storage" /> class.</summary>
+            <param name="logger">The logger.</param>
             <param name="sessionStorage">The session storage.</param>
-            <exception cref="T:System.ArgumentNullException">sessionStorage</exception>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.ClearAsync">
-            <summary>Clears items from the storage</summary>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions">
+            <summary>Represents the option(s) for the storage</summary>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.ContainsKeyAsync(System.String)">
-            <summary>Determines whether the specified key exist or not.</summary>
-            <param name="key">The key.</param>
+        <member name="P:Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions.AuthenticationResponseType">
+            <summary>Gets or sets the type of the authentication response.
+            Change this type, if you are using a different type to receive response at authentication.</summary>
+            <value>The type of the authentication response.</value>
+        </member>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Models.ReceiveAuthenticationResult">
+            <summary>
+              <para>Represents the result data for the callback</para>
+            </summary>
+        </member>
+        <member name="P:Forge.Security.Jwt.Client.Storage.Browser.Models.ReceiveAuthenticationResult.ParsedTokenData">
+            <summary>Gets or sets the parsed token data.</summary>
+            <value>The parsed token data.</value>
+        </member>
+        <member name="P:Forge.Security.Jwt.Client.Storage.Browser.Models.ReceiveAuthenticationResult.StartService">
+            <summary>Gets or sets a value indicating whether the JS service need to start or not</summary>
+            <value>
+              <c>true</c> if need to start; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:Forge.Security.Jwt.Client.Storage.Browser.Models.ReceiveAuthenticationResult.ServiceDueTime">
+            <summary>Gets or sets the service due time.</summary>
+            <value>The service wait time.</value>
+        </member>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Models.StorageModeEnum">
+            <summary>Represents the selected storage</summary>
+        </member>
+        <member name="F:Forge.Security.Jwt.Client.Storage.Browser.Models.StorageModeEnum.LocalStorage">
+            <summary>Using local storage</summary>
+        </member>
+        <member name="F:Forge.Security.Jwt.Client.Storage.Browser.Models.StorageModeEnum.SessionStorage">
+            <summary>Using session storage</summary>
+        </member>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions">
+            <summary>Service Collection Extension methods</summary>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreWithLocalStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers the LocalStorage as scoped for Forge Jwt Client side security services.
+            </summary>
+            <returns>IServiceCollection</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreWithLocalStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+            <summary>Registers the LocalStorage as scoped for Forge Jwt Client side security services.</summary>
+            <param name="services">The services.</param>
+            <param name="configure">The configure.</param>
             <returns>
-              <c>true</c> if the specified key exists; otherwise, <c>false</c>.</returns>
+              IServiceCollection
+            </returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.GetAsync">
-            <summary>Gets stored data</summary>
-            <returns>List of data</returns>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreAsSingletonWithLocalStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers the LocalStorage as singleton for Forge Jwt Client side security services.
+            </summary>
+            <returns>IServiceCollection</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.GetAsync(System.String)">
-            <summary>Gets the item by key</summary>
-            <param name="key">The key.</param>
-            <returns>Data or default</returns>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreAsSingletonWithLocalStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+            <summary>Registers the LocalStorage as singleton for Forge Jwt Client side security services.</summary>
+            <param name="services">The services.</param>
+            <param name="configure">The configure.</param>
+            <returns>
+              IServiceCollection
+            </returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.RemoveAsync(System.String)">
-            <summary>Removes an item from the storage</summary>
-            <param name="key">The key.</param>
-            <returns>True, if it was successful, otherwise, False.</returns>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreWithSessionStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers the SessionStorage as scoped for Forge Jwt Client side security services.
+            </summary>
+            <returns>IServiceCollection</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage`1.SetAsync(System.String,`0)">
-            <summary>Sets an item</summary>
-            <param name="key">The key.</param>
-            <param name="data">The data.</param>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreWithSessionStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+            <summary>Registers the SessionStorage as scoped for Forge Jwt Client side security services.</summary>
+            <param name="services">The services.</param>
+            <param name="configure">The configure.</param>
+            <returns>
+              IServiceCollection
+            </returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreAsSingletonWithSessionStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers the SessionStorage as singleton for Forge Jwt Client side security services.
+            </summary>
+            <returns>IServiceCollection</returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreAsSingletonWithSessionStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+            <summary>Registers the SessionStorage as singleton for Forge Jwt Client side security services.</summary>
+            <param name="services">The services.</param>
+            <param name="configure">The configure.</param>
+            <returns>
+              IServiceCollection
+            </returns>
+        </member>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService">
+            <summary>Automatically refresh the token before it expires</summary>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService},Microsoft.JSInterop.IJSRuntime,Forge.Security.Jwt.Shared.Client.Api.ITokenizedApiCommunicationService,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService" /> class.</summary>
+            <param name="logger">The logger.</param>
+            <param name="jsRuntime">The JSRuntime.</param>
+            <param name="apiService">The communication service.</param>
+            <param name="authenticationStateProvider">The authentication state provider.</param>
+            <param name="additionalData">The additional data.</param>
+            <param name="authCoreOptions">The client authentication core options.</param>
+            <param name="browserStorageOptions">The browser storage options.</param>
+        </member>
+        <member name="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.Storage">
+            <summary>Stores data into the browser's session storage</summary>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.Storage.#ctor(Microsoft.Extensions.Logging.ILogger{Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.Storage},Forge.Wasm.BrowserStorages.Services.SessionStorage.ISessionStorageServiceAsync)">
+            <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.Storage" /> class.</summary>
+            <param name="logger">The logger.</param>
+            <param name="sessionStorage">The session storage.</param>
         </member>
     </members>
 </doc>

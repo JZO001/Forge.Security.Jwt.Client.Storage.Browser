@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup Label="Globals">
 		<SccProjectName>SAK</SccProjectName>
@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1;net5.0;net6.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
 		<Version>1.0.0.0</Version>
 		<Copyright>Copyright © Zoltan Juhasz, 2022</Copyright>
 		<Description>Forge Security Jwt Web Browser storages</Description>
@@ -26,16 +26,24 @@
 
 	<PropertyGroup>
 		<DocumentationFile>Forge.Security.Jwt.Client.Storage.Browser.xml</DocumentationFile>
-		<RepositoryUrl>https://github.com/JZO001/Forge</RepositoryUrl>
+		<RepositoryUrl>https://github.com/JZO001/Forge.Security.Jwt.Client.Storage.Browser</RepositoryUrl>
 	</PropertyGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0' or '$(TargetFramework)' == 'net6.0'">
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
 	<ItemGroup>
-		<PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
-		<PackageReference Include="Blazored.SessionStorage" Version="2.2.0" />
+	  <None Remove="RefreshTokenService.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="RefreshTokenService.js" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Forge.Security.Jwt.Shared\Forge.Security.Jwt.Shared.csproj" />
+		<ProjectReference Include="..\Forge.Wasm.BrowserStorages\Forge.Wasm.BrowserStorages.csproj" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
