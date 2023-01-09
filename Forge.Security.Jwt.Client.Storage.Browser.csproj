@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net6.0</TargetFrameworks>
 		<Version>1.0.0.0</Version>
 		<Copyright>Copyright © Zoltan Juhasz, 2022</Copyright>
 		<Description>Forge Security Jwt Web Browser storages</Description>
@@ -19,9 +19,9 @@
 		<AssemblyVersion>1.0.0.2</AssemblyVersion>
 		<Title>Forge Security Jwt Client Storage Browser</Title>
 		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\..\.Documents\Forge.pfx</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>..\.Documents\Forge.pfx</AssemblyOriginatorKeyFile>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<ProjectGuid>{155329A6-2DF2-4C6E-84D1-D9EE0D9577CB}</ProjectGuid>
+		<ProjectGuid>{1D1A1570-3828-4C96-A040-6E705C5EF31F}</ProjectGuid>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -29,7 +29,7 @@
 		<RepositoryUrl>https://github.com/JZO001/Forge.Security.Jwt.Client.Storage.Browser</RepositoryUrl>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0' or '$(TargetFramework)' == 'net6.0'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 
