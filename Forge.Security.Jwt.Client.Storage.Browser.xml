@@ -55,39 +55,44 @@
         <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase">
             <summary>Stores data into the browser's local storage</summary>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.#ctor(Microsoft.Extensions.Logging.ILogger,Forge.Wasm.BrowserStorages.Services.Abstraction.IServiceAsync)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.#ctor(Forge.Wasm.BrowserStorages.Services.Abstraction.IServiceAsync)">
             <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase" /> class.</summary>
-            <param name="logger">The logger.</param>
             <param name="storage">The local storage.</param>
             <exception cref="T:System.ArgumentNullException">localStorage</exception>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.ClearAsync">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.ClearAsync(System.Threading.CancellationToken)">
             <summary>Clears items from the storage</summary>
+            <param name="cancellationToken">The cancellation token.</param>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.ContainsKeyAsync(System.String)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.ContainsKeyAsync(System.String,System.Threading.CancellationToken)">
             <summary>Determines whether the specified key exist or not.</summary>
             <param name="key">The key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
             <returns>
               <c>true</c> if the specified key exists; otherwise, <c>false</c>.</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.GetAsync">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.GetAsync(System.Threading.CancellationToken)">
             <summary>Gets stored data</summary>
+            <param name="cancellationToken">The cancellation token.</param>
             <returns>List of data</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.GetAsync(System.String)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.GetAsync(System.String,System.Threading.CancellationToken)">
             <summary>Gets the item by key</summary>
             <param name="key">The key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
             <returns>Data or default</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.RemoveAsync(System.String)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.RemoveAsync(System.String,System.Threading.CancellationToken)">
             <summary>Removes an item from the storage</summary>
             <param name="key">The key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
             <returns>True, if it was successful, otherwise, False.</returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.SetAsync(System.String,Forge.Security.Jwt.Shared.Client.Models.ParsedTokenData)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase.SetAsync(System.String,Forge.Security.Jwt.Shared.Client.Models.ParsedTokenData,System.Threading.CancellationToken)">
             <summary>Sets an item</summary>
             <param name="key">The key.</param>
             <param name="data">The data.</param>
+            <param name="cancellationToken">The cancellation token.</param>
         </member>
         <member name="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService">
             <summary>Automatically refresh the token before it expires</summary>

@@ -9,27 +9,33 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net6.0</TargetFrameworks>
-		<Version>1.0.0.0</Version>
-		<Copyright>Copyright © Zoltan Juhasz, 2022</Copyright>
-		<Description>Forge Security Jwt Web Browser storages</Description>
-		<Product>Forge: reference, practice and patterns implementations and helper(s)</Product>
-		<Company>Forge Project Contributor(s)</Company>
-		<PackageId>Forge.Security.Jwt.Client.Storage.Browser</PackageId>
-		<Authors>Zoltan Juhasz</Authors>
-		<AssemblyVersion>1.0.0.2</AssemblyVersion>
-		<Title>Forge Security Jwt Client Storage Browser</Title>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\.Documents\Forge.pfx</AssemblyOriginatorKeyFile>
-		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<ProjectGuid>{1D1A1570-3828-4C96-A040-6E705C5EF31F}</ProjectGuid>
-	</PropertyGroup>
-
-	<PropertyGroup>
 		<DocumentationFile>Forge.Security.Jwt.Client.Storage.Browser.xml</DocumentationFile>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<Product>Forge: reference, practice and patterns implementations and helper(s)</Product>
+		<Company>Forge Project Contributor(s)</Company>
+		<Copyright>Copyright © Zoltan Juhasz, 2022-2023</Copyright>
+		<PackageId>Forge.Security.Jwt.Client.Storage.Browser</PackageId>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Title>Forge Security Jwt Client Storage Browser</Title>
+		<Description>Forge Security Jwt Web Browser storages</Description>
+		<PackageProjectUrl>https://github.com/JZO001/Forge.Security.Jwt.Client.Storage.Browser</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/JZO001/Forge.Security.Jwt.Client.Storage.Browser</RepositoryUrl>
+		<Authors>Zoltan Juhasz</Authors>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryType>git</RepositoryType>
+		<AssemblyVersion>1.2.7.0</AssemblyVersion>
+		<Version>$(AssemblyVersion)</Version>
+		<FileVersion>$(AssemblyVersion)</FileVersion>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageTags>jwt, storage, localstorage, provider, sessionstorage, blazor</PackageTags>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'">
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 
@@ -44,6 +50,17 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Forge.Security.Jwt.Shared\Forge.Security.Jwt.Shared.csproj" />
 		<ProjectReference Include="..\Forge.Wasm.BrowserStorages\Forge.Wasm.BrowserStorages.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

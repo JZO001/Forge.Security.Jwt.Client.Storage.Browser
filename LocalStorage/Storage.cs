@@ -12,7 +12,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.LocalStorage
         /// <summary>Initializes a new instance of the <see cref="Storage" /> class.</summary>
         /// <param name="logger">The logger.</param>
         /// <param name="sessionStorage">The session storage.</param>
-        public Storage(ILogger<Storage> logger, ILocalStorageServiceAsync sessionStorage) : base(logger, sessionStorage)
+        public Storage(ILogger<Storage> logger, ILocalStorageServiceAsync sessionStorage) : base(sessionStorage)
         {
             logger.LogDebug($"Storage.ctor, ILocalStorageServiceAsync, hash: {sessionStorage.GetHashCode()}");
         }
