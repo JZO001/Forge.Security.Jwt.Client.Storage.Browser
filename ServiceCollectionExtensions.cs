@@ -13,20 +13,14 @@ namespace Forge.Security.Jwt.Client.Storage.Browser
     public static class ServiceCollectionExtensions
     {
 
-        /// <summary>
-        /// Registers the LocalStorage as scoped for Forge Jwt Client side security services.
-        /// </summary>
-        /// <returns>IServiceCollection</returns>
-        public static IServiceCollection AddForgeJwtClientAuthenticationCoreWithLocalStorage(this IServiceCollection services)
-            => services.AddForgeJwtClientAuthenticationCoreWithLocalStorage(null);
-
         /// <summary>Registers the LocalStorage as scoped for Forge Jwt Client side security services.</summary>
         /// <param name="services">The services.</param>
         /// <param name="configure">The configure.</param>
         /// <returns>
         ///   IServiceCollection
         /// </returns>
-        public static IServiceCollection AddForgeJwtClientAuthenticationCoreWithLocalStorage(this IServiceCollection services, Action<BrowserStorageOptions> configure)
+        public static IServiceCollection AddForgeJwtClientAuthenticationCoreWithLocalStorage(this IServiceCollection services, 
+            Action<BrowserStorageOptions> configure = null)
         {
             return services
                 .Replace(new ServiceDescriptor(typeof(IStorage<ParsedTokenData>),
@@ -40,13 +34,6 @@ namespace Forge.Security.Jwt.Client.Storage.Browser
                     configure?.Invoke(configureOptions);
                 });
         }
-
-        /// <summary>
-        /// Registers the LocalStorage as singleton for Forge Jwt Client side security services.
-        /// </summary>
-        /// <returns>IServiceCollection</returns>
-        public static IServiceCollection AddForgeJwtClientAuthenticationCoreAsSingletonWithLocalStorage(this IServiceCollection services)
-            => services.AddForgeJwtClientAuthenticationCoreAsSingletonWithLocalStorage(null);
 
         /// <summary>Registers the LocalStorage as singleton for Forge Jwt Client side security services.</summary>
         /// <param name="services">The services.</param>
@@ -54,7 +41,8 @@ namespace Forge.Security.Jwt.Client.Storage.Browser
         /// <returns>
         ///   IServiceCollection
         /// </returns>
-        public static IServiceCollection AddForgeJwtClientAuthenticationCoreAsSingletonWithLocalStorage(this IServiceCollection services, Action<BrowserStorageOptions> configure)
+        public static IServiceCollection AddForgeJwtClientAuthenticationCoreAsSingletonWithLocalStorage(this IServiceCollection services, 
+            Action<BrowserStorageOptions> configure = null)
         {
             return services
                 .Replace(new ServiceDescriptor(typeof(IStorage<ParsedTokenData>),
@@ -69,20 +57,14 @@ namespace Forge.Security.Jwt.Client.Storage.Browser
                 });
         }
 
-        /// <summary>
-        /// Registers the SessionStorage as scoped for Forge Jwt Client side security services.
-        /// </summary>
-        /// <returns>IServiceCollection</returns>
-        public static IServiceCollection AddForgeJwtClientAuthenticationCoreWithSessionStorage(this IServiceCollection services)
-            => services.AddForgeJwtClientAuthenticationCoreWithSessionStorage(null);
-
         /// <summary>Registers the SessionStorage as scoped for Forge Jwt Client side security services.</summary>
         /// <param name="services">The services.</param>
         /// <param name="configure">The configure.</param>
         /// <returns>
         ///   IServiceCollection
         /// </returns>
-        public static IServiceCollection AddForgeJwtClientAuthenticationCoreWithSessionStorage(this IServiceCollection services, Action<BrowserStorageOptions> configure)
+        public static IServiceCollection AddForgeJwtClientAuthenticationCoreWithSessionStorage(this IServiceCollection services, 
+            Action<BrowserStorageOptions> configure = null)
         {
             return services
                 .Replace(new ServiceDescriptor(typeof(IStorage<ParsedTokenData>),
@@ -97,20 +79,14 @@ namespace Forge.Security.Jwt.Client.Storage.Browser
                 });
         }
 
-        /// <summary>
-        /// Registers the SessionStorage as singleton for Forge Jwt Client side security services.
-        /// </summary>
-        /// <returns>IServiceCollection</returns>
-        public static IServiceCollection AddForgeJwtClientAuthenticationCoreAsSingletonWithSessionStorage(this IServiceCollection services)
-            => services.AddForgeJwtClientAuthenticationCoreAsSingletonWithSessionStorage(null);
-
         /// <summary>Registers the SessionStorage as singleton for Forge Jwt Client side security services.</summary>
         /// <param name="services">The services.</param>
         /// <param name="configure">The configure.</param>
         /// <returns>
         ///   IServiceCollection
         /// </returns>
-        public static IServiceCollection AddForgeJwtClientAuthenticationCoreAsSingletonWithSessionStorage(this IServiceCollection services, Action<BrowserStorageOptions> configure)
+        public static IServiceCollection AddForgeJwtClientAuthenticationCoreAsSingletonWithSessionStorage(this IServiceCollection services, 
+            Action<BrowserStorageOptions> configure = null)
         {
             return services
                 .Replace(new ServiceDescriptor(typeof(IStorage<ParsedTokenData>),

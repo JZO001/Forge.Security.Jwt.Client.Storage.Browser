@@ -7,14 +7,14 @@
         <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase">
             <summary>Automatically refresh the token before it expires</summary>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.#ctor(Microsoft.Extensions.Logging.ILogger,Microsoft.JSInterop.IJSRuntime,Forge.Security.Jwt.Shared.Client.Api.ITokenizedApiCommunicationService,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Forge.Security.Jwt.Client.Storage.Browser.Models.StorageModeEnum,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.#ctor(Microsoft.Extensions.Logging.ILogger,Microsoft.JSInterop.IJSRuntime,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Forge.Security.Jwt.Client.Storage.Browser.Models.StorageModeEnum,Forge.Security.Jwt.Shared.Client.Models.DataStore,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
             <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase" /> class.</summary>
             <param name="logger">The logger.</param>
             <param name="jsRuntime">The js runtime.</param>
-            <param name="apiService">The API service.</param>
             <param name="authenticationStateProvider">The authentication state provider.</param>
             <param name="additionalData">The additional data.</param>
             <param name="storageMode">The storage mode.</param>
+            <param name="dataStore">The dataStore.</param>
             <param name="authCoreOptions">The authentication core options.</param>
             <param name="browserStorageOptions">The browser storage options.</param>
             <exception cref="T:System.ArgumentNullException">logger
@@ -97,13 +97,13 @@
         <member name="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService">
             <summary>Automatically refresh the token before it expires</summary>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService},Microsoft.JSInterop.IJSRuntime,Forge.Security.Jwt.Shared.Client.Api.ITokenizedApiCommunicationService,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService},Microsoft.JSInterop.IJSRuntime,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Forge.Security.Jwt.Shared.Client.Models.DataStore,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
             <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.LocalStorage.JwtTokenRefreshHostedService" /> class.</summary>
             <param name="logger">The logger.</param>
             <param name="jsRuntime">The JSRuntime.</param>
-            <param name="apiService">The communication service.</param>
             <param name="authenticationStateProvider">The authentication state provider.</param>
             <param name="additionalData">The additional data.</param>
+            <param name="dataStore">The dataStore.</param>
             <param name="authCoreOptions">The client authentication core options.</param>
             <param name="browserStorageOptions">The browser storage options.</param>
         </member>
@@ -153,12 +153,6 @@
         <member name="T:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions">
             <summary>Service Collection Extension methods</summary>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreWithLocalStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Registers the LocalStorage as scoped for Forge Jwt Client side security services.
-            </summary>
-            <returns>IServiceCollection</returns>
-        </member>
         <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreWithLocalStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
             <summary>Registers the LocalStorage as scoped for Forge Jwt Client side security services.</summary>
             <param name="services">The services.</param>
@@ -166,12 +160,6 @@
             <returns>
               IServiceCollection
             </returns>
-        </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreAsSingletonWithLocalStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Registers the LocalStorage as singleton for Forge Jwt Client side security services.
-            </summary>
-            <returns>IServiceCollection</returns>
         </member>
         <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreAsSingletonWithLocalStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
             <summary>Registers the LocalStorage as singleton for Forge Jwt Client side security services.</summary>
@@ -181,12 +169,6 @@
               IServiceCollection
             </returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreWithSessionStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Registers the SessionStorage as scoped for Forge Jwt Client side security services.
-            </summary>
-            <returns>IServiceCollection</returns>
-        </member>
         <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreWithSessionStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
             <summary>Registers the SessionStorage as scoped for Forge Jwt Client side security services.</summary>
             <param name="services">The services.</param>
@@ -194,12 +176,6 @@
             <returns>
               IServiceCollection
             </returns>
-        </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreAsSingletonWithSessionStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Registers the SessionStorage as singleton for Forge Jwt Client side security services.
-            </summary>
-            <returns>IServiceCollection</returns>
         </member>
         <member name="M:Forge.Security.Jwt.Client.Storage.Browser.ServiceCollectionExtensions.AddForgeJwtClientAuthenticationCoreAsSingletonWithSessionStorage(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
             <summary>Registers the SessionStorage as singleton for Forge Jwt Client side security services.</summary>
@@ -212,13 +188,13 @@
         <member name="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService">
             <summary>Automatically refresh the token before it expires</summary>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService},Microsoft.JSInterop.IJSRuntime,Forge.Security.Jwt.Shared.Client.Api.ITokenizedApiCommunicationService,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService},Microsoft.JSInterop.IJSRuntime,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Forge.Security.Jwt.Shared.Client.Models.DataStore,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
             <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.SessionStorage.JwtTokenRefreshHostedService" /> class.</summary>
             <param name="logger">The logger.</param>
             <param name="jsRuntime">The JSRuntime.</param>
-            <param name="apiService">The communication service.</param>
             <param name="authenticationStateProvider">The authentication state provider.</param>
             <param name="additionalData">The additional data.</param>
+            <param name="dataStore">The dataStore.</param>
             <param name="authCoreOptions">The client authentication core options.</param>
             <param name="browserStorageOptions">The browser storage options.</param>
         </member>

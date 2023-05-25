@@ -18,19 +18,19 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.SessionStorage
         /// <summary>Initializes a new instance of the <see cref="JwtTokenRefreshHostedService" /> class.</summary>
         /// <param name="logger">The logger.</param>
         /// <param name="jsRuntime">The JSRuntime.</param>
-        /// <param name="apiService">The communication service.</param>
         /// <param name="authenticationStateProvider">The authentication state provider.</param>
         /// <param name="additionalData">The additional data.</param>
+        /// <param name="dataStore">The dataStore.</param>
         /// <param name="authCoreOptions">The client authentication core options.</param>
         /// <param name="browserStorageOptions">The browser storage options.</param>
         public JwtTokenRefreshHostedService(ILogger<JwtTokenRefreshHostedService> logger,
             IJSRuntime jsRuntime,
-            ITokenizedApiCommunicationService apiService,
             AuthenticationStateProvider authenticationStateProvider,
             IAdditionalData additionalData,
+            DataStore dataStore,
             IOptions<JwtClientAuthenticationCoreOptions> authCoreOptions,
             IOptions<BrowserStorageOptions> browserStorageOptions) :
-            base(logger, jsRuntime, apiService, authenticationStateProvider, additionalData, StorageModeEnum.SessionStorage, authCoreOptions, browserStorageOptions)
+            base(logger, jsRuntime, authenticationStateProvider, additionalData, StorageModeEnum.SessionStorage, dataStore, authCoreOptions, browserStorageOptions)
         {
         }
 
