@@ -112,3 +112,5 @@
 })();
 
 console.log("Refresh token service script inserted");
+
+//# sourceURL=_content/Forge.Security.Jwt.Client.Storage.Browser/js/refresh_token_service.js

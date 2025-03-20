@@ -151,7 +151,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         private async Task ConnectToBrowser()
         {
             Assembly assembly = typeof(JwtTokenRefreshHostedServiceBase).Assembly;
-            string resourceName = string.Format("{0}.RefreshTokenService.js", typeof(JwtTokenRefreshHostedServiceBase).Assembly.GetName().Name);
+            string resourceName = string.Format("{0}.refresh_token_service.js", typeof(JwtTokenRefreshHostedServiceBase).Assembly.GetName().Name);
             string jsScript = string.Empty;
             
             _logger.LogDebug($"ConnectToBrowser, resourceName: {resourceName}");
