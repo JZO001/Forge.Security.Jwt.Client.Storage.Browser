@@ -159,12 +159,12 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))
             {
-                jsScript = reader.ReadToEnd();
+                jsScript = await reader.ReadToEndAsync();
             }
 
             _logger.LogDebug($"ConnectToBrowser, invoking JS 'eval', script length: {jsScript?.Length}");
 
-            await _jsRuntime.InvokeAsync<object>("eval", jsScript);
+            await _jsRuntime.InvokeVoidAsync("eval", jsScript);
 
             string refreshUrl = _authCoreOptions.BaseAddress;
             if (!refreshUrl.EndsWith("/")) refreshUrl = $"{refreshUrl}/";
@@ -172,7 +172,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             _logger.LogDebug($"ConnectToBrowser, refresh url: {refreshUrl}");
             _logger.LogDebug("ConnectToBrowser, invoking JS 'initRefreshTokenService'");
 
-            await _jsRuntime.InvokeAsync<object>("initRefreshTokenService", 
+            await _jsRuntime.InvokeVoidAsync("initRefreshTokenService", 
                 _reference, 
                 $"{refreshUrl}{_authCoreOptions.RefreshUri}", 
                 (int)_storageMode,
@@ -192,14 +192,14 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             {
                 // token has already expired
                 _logger.LogInformation("ConfigureServiceAsync, refresh token expired. It is not possible to regenerate the current access token, if it exists.");
-                await _jsRuntime.InvokeAsync<object>("stopRefreshTokenService");
+                await _jsRuntime.InvokeVoidAsync("stopRefreshTokenService");
             }
             else
             {
                 // start timer
                 int dueTime = GetDueTimeForService();
                 _logger.LogInformation($"ConfigureServiceAsync, timer due time value: {dueTime} ms");
-                await _jsRuntime.InvokeAsync<object>("startRefreshTokenService", dueTime.ToString());
+                await _jsRuntime.InvokeVoidAsync("startRefreshTokenService", dueTime.ToString());
             }
         }
 
