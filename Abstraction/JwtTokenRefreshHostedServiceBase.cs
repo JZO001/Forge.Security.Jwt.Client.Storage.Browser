@@ -35,6 +35,12 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         /// <summary>Occurs when authentication required</summary>
         public event EventHandler OnAuthenticationError;
 
+        /// <summary>Occurs when authentication token expired</summary>
+        public event EventHandler OnTokenExpired;
+
+        /// <summary>Occurs when token refresh error occured</summary>
+        public event EventHandler<Exception> OnTokenRefreshError;
+
         /// <summary>Initializes a new instance of the <see cref="JwtTokenRefreshHostedServiceBase" /> class.</summary>
         /// <param name="logger">The logger.</param>
         /// <param name="jsRuntime">The js runtime.</param>
@@ -146,7 +152,6 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
 
         /// <summary>Callbacks the receive authentication error.</summary>
         /// <returns>
-        ///   <br />
         /// </returns>
         [JSInvokable]
         public Task CallbackReceiveAuthenticationErrorAsync()
@@ -155,10 +160,34 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             return Task.CompletedTask;
         }
 
+        /// <summary>Callbacks the refresh token error asynchronous.</summary>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns>
+        /// </returns>
+        [JSInvokable]
+        public Task CallbackRefreshTokenErrorAsync(string errorMessage)
+        {
+            RaiseOnTokenRefreshError(new Exception(errorMessage));
+            return Task.CompletedTask;
+        }
+
         /// <summary>Raises the authentication error event.</summary>
         protected virtual void RaiseOnAuthenticationError()
         {
             OnAuthenticationError?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>Raises the on token expired event</summary>
+        protected virtual void RaiseOnTokenExpired()
+        {
+            OnTokenExpired?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>Raises the on token refresh error.</summary>
+        /// <param name="ex">The exception</param>
+        protected virtual void RaiseOnTokenRefreshError(Exception ex)
+        {
+            OnTokenRefreshError?.Invoke(this, ex);
         }
 
         private async void AuthenticationStateChangedEventHandler(Task<AuthenticationState> task)

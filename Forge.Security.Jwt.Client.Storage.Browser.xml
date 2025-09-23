@@ -10,6 +10,12 @@
         <member name="E:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.OnAuthenticationError">
             <summary>Occurs when authentication required</summary>
         </member>
+        <member name="E:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.OnTokenExpired">
+            <summary>Occurs when authentication token expired</summary>
+        </member>
+        <member name="E:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.OnTokenRefreshError">
+            <summary>Occurs when token refresh error occured</summary>
+        </member>
         <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.#ctor(Microsoft.Extensions.Logging.ILogger,Microsoft.JSInterop.IJSRuntime,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Forge.Security.Jwt.Client.Storage.Browser.Models.StorageModeEnum,Forge.Security.Jwt.Shared.Client.Models.DataStore,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
             <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase" /> class.</summary>
             <param name="logger">The logger.</param>
@@ -58,11 +64,23 @@
         <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.CallbackReceiveAuthenticationErrorAsync">
             <summary>Callbacks the receive authentication error.</summary>
             <returns>
-              <br />
+            </returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.CallbackRefreshTokenErrorAsync(System.String)">
+            <summary>Callbacks the refresh token error asynchronous.</summary>
+            <param name="errorMessage">The error message.</param>
+            <returns>
             </returns>
         </member>
         <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.RaiseOnAuthenticationError">
             <summary>Raises the authentication error event.</summary>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.RaiseOnTokenExpired">
+            <summary>Raises the on token expired event</summary>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.RaiseOnTokenRefreshError(System.Exception)">
+            <summary>Raises the on token refresh error.</summary>
+            <param name="ex">The exception</param>
         </member>
         <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase">
             <summary>Stores data into the browser's local storage</summary>

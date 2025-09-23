@@ -98,7 +98,10 @@
                         // server error, try again a bit later
                         window.startRefreshTokenService(1000);
                     }
-
+                })
+                .catch(error => {
+                    //console.log(`Refresh token service, error: ${error}`);
+                    window.refreshTokenServiceConfig.dotNetCallBack.invokeMethodAsync('CallbackRefreshTokenErrorAsync', JSON.stringify(error));
                 });
         }, dueTimeInMilliseconds);
     }
