@@ -32,6 +32,9 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
 
         private ParsedTokenData _parsedTokenData = new ParsedTokenData();
 
+        /// <summary>Occurs when authentication required</summary>
+        public event EventHandler OnAuthenticationError;
+
         /// <summary>Initializes a new instance of the <see cref="JwtTokenRefreshHostedServiceBase" /> class.</summary>
         /// <param name="logger">The logger.</param>
         /// <param name="jsRuntime">The js runtime.</param>
@@ -82,7 +85,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
 
             _reference = DotNetObjectReference.Create<JwtTokenRefreshHostedServiceBase>(this);
 
-            _logger.LogDebug($"{this.GetType().Name}.ctor, AuthenticationStateProvider, hash: {authenticationStateProvider.GetHashCode()}");
+            _logger.LogDebug("{Name}.ctor, AuthenticationStateProvider, hash: {Hash}", GetType().Name, authenticationStateProvider.GetHashCode());
         }
 
         /// <summary>Starts the service</summary>
@@ -125,7 +128,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         ///   JSON string as a result
         /// </returns>
         [JSInvokable]
-        public async Task<string> CallbackReceiveAuthenticationResponse(string authenticationResponseStr)
+        public async Task<string> CallbackReceiveAuthenticationResponseAsync(string authenticationResponseStr)
         {
             IAuthenticationResponse authenticationResponse = JsonSerializer.Deserialize(authenticationResponseStr, 
                 _browserStorageOptions.AuthenticationResponseType, 
@@ -141,7 +144,24 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             return JsonSerializer.Serialize(result, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
 
-        private async void AuthenticationStateChangedEventHandler(Task<Microsoft.AspNetCore.Components.Authorization.AuthenticationState> task)
+        /// <summary>Callbacks the receive authentication error.</summary>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        [JSInvokable]
+        public Task CallbackReceiveAuthenticationErrorAsync()
+        {
+            RaiseOnAuthenticationError();
+            return Task.CompletedTask;
+        }
+
+        /// <summary>Raises the authentication error event.</summary>
+        protected virtual void RaiseOnAuthenticationError()
+        {
+            OnAuthenticationError?.Invoke(this, EventArgs.Empty);
+        }
+
+        private async void AuthenticationStateChangedEventHandler(Task<AuthenticationState> task)
         {
             _logger.LogInformation("AuthenticationStateChangedEventHandler, authentication state changed");
             _parsedTokenData = await GetParsedTokenDataAsync();
@@ -154,7 +174,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             string resourceName = string.Format("{0}.refresh_token_service.js", typeof(JwtTokenRefreshHostedServiceBase).Assembly.GetName().Name);
             string jsScript = string.Empty;
             
-            _logger.LogDebug($"ConnectToBrowser, resourceName: {resourceName}");
+            _logger.LogDebug("ConnectToBrowser, resourceName: {ResourceName}", resourceName);
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))
@@ -162,14 +182,14 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
                 jsScript = await reader.ReadToEndAsync();
             }
 
-            _logger.LogDebug($"ConnectToBrowser, invoking JS 'eval', script length: {jsScript?.Length}");
+            _logger.LogDebug("ConnectToBrowser, invoking JS 'eval', script length: {ScriptLength}", jsScript?.Length);
 
             await _jsRuntime.InvokeVoidAsync("eval", jsScript);
 
             string refreshUrl = _authCoreOptions.BaseAddress;
             if (!refreshUrl.EndsWith("/")) refreshUrl = $"{refreshUrl}/";
 
-            _logger.LogDebug($"ConnectToBrowser, refresh url: {refreshUrl}");
+            _logger.LogDebug("ConnectToBrowser, refresh url: {RefreshUrl}", refreshUrl);
             _logger.LogDebug("ConnectToBrowser, invoking JS 'initRefreshTokenService'");
 
             await _jsRuntime.InvokeVoidAsync("initRefreshTokenService", 
@@ -186,8 +206,8 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
 
         private async Task ConfigureServiceAsync()
         {
-            _logger.LogDebug($"ConfigureServiceAsync, current time: {DateTime.UtcNow.ToString("yyyy.MM.dd HH:mm:ss:ttt")}, refresh token will expire: {_parsedTokenData.RefreshTokenExpireAt.ToString("yyyy.MM.dd HH:mm:ss:ttt")}");
-            
+            _logger.LogDebug("ConfigureServiceAsync, current time: {CurrentTime}, refresh token will expire: {RefreshTokenExpireAt}", DateTime.UtcNow.ToString("yyyy.MM.dd HH:mm:ss:ttt"), _parsedTokenData.RefreshTokenExpireAt.ToString("yyyy.MM.dd HH:mm:ss:ttt"));
+
             if (_parsedTokenData.RefreshTokenExpireAt < DateTime.UtcNow)
             {
                 // token has already expired
@@ -198,7 +218,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             {
                 // start timer
                 int dueTime = GetDueTimeForService();
-                _logger.LogInformation($"ConfigureServiceAsync, timer due time value: {dueTime} ms");
+                _logger.LogInformation("ConfigureServiceAsync, timer due time value: {DueTime} ms", dueTime);
                 await _jsRuntime.InvokeVoidAsync("startRefreshTokenService", dueTime.ToString());
             }
         }
@@ -208,8 +228,8 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             int dueTime = Convert.ToInt32(TimeSpan.FromTicks(_parsedTokenData.RefreshTokenExpireAt.Ticks - DateTime.UtcNow.Ticks).TotalMilliseconds) - _authCoreOptions.RefreshTokenBeforeExpirationInMilliseconds;
             if (dueTime < 0) dueTime = 0;
 
-            _logger.LogInformation($"GetDueTimeForService, timer due time value: {dueTime} ms");
-            
+            _logger.LogInformation("GetDueTimeForService, timer due time value: {DueTime} ms", dueTime);
+
             return dueTime;
         }
 

@@ -7,6 +7,9 @@
         <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase">
             <summary>Automatically refresh the token before it expires</summary>
         </member>
+        <member name="E:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.OnAuthenticationError">
+            <summary>Occurs when authentication required</summary>
+        </member>
         <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.#ctor(Microsoft.Extensions.Logging.ILogger,Microsoft.JSInterop.IJSRuntime,Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider,Forge.Security.Jwt.Shared.Client.Services.IAdditionalData,Forge.Security.Jwt.Client.Storage.Browser.Models.StorageModeEnum,Forge.Security.Jwt.Shared.Client.Models.DataStore,Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Shared.Client.Models.JwtClientAuthenticationCoreOptions},Microsoft.Extensions.Options.IOptions{Forge.Security.Jwt.Client.Storage.Browser.Models.BrowserStorageOptions})">
             <summary>Initializes a new instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase" /> class.</summary>
             <param name="logger">The logger.</param>
@@ -45,12 +48,21 @@
               Task
             </returns>
         </member>
-        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.CallbackReceiveAuthenticationResponse(System.String)">
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.CallbackReceiveAuthenticationResponseAsync(System.String)">
             <summary>Callbacks the receive authentication response.</summary>
             <param name="authenticationResponseStr">The authentication response string.</param>
             <returns>
               JSON string as a result
             </returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.CallbackReceiveAuthenticationErrorAsync">
+            <summary>Callbacks the receive authentication error.</summary>
+            <returns>
+              <br />
+            </returns>
+        </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.RaiseOnAuthenticationError">
+            <summary>Raises the authentication error event.</summary>
         </member>
         <member name="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.StorageBase">
             <summary>Stores data into the browser's local storage</summary>

@@ -69,13 +69,14 @@
                         } else {
                             sessionStorage.setItem(window.refreshTokenServiceConfig.storageKey, parsedTokenDataStr);
                         }
+                        window.refreshTokenServiceConfig.dotNetCallBack.invokeMethodAsync('CallbackReceiveAuthenticationErrorAsync');
                     } else if (response.status === 200) {
                         const authenticationResponse = await response.json();
                         const authResponseStr = JSON.stringify(authenticationResponse);
 
                         //console.log(`Refresh token service, authenticationResponse: ${authResponseStr}`);
 
-                        window.refreshTokenServiceConfig.dotNetCallBack.invokeMethodAsync('CallbackReceiveAuthenticationResponse', authResponseStr)
+                        window.refreshTokenServiceConfig.dotNetCallBack.invokeMethodAsync('CallbackReceiveAuthenticationResponseAsync', authResponseStr)
                             .then((receiveAuthenticationResultStr) => {
 
                                 //console.log(`Refresh token service, receiveAuthenticationResultStr: ${receiveAuthenticationResultStr}`);
