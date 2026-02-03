@@ -20,7 +20,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         /// <exception cref="System.ArgumentNullException">localStorage</exception>
         protected StorageBase(IServiceAsync storage)
         {
-            if (storage == null) throw new ArgumentNullException(nameof(storage));
+            if (storage is null) throw new ArgumentNullException(nameof(storage));
 
             _storage = storage;
         }
@@ -50,7 +50,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             IEnumerable<string> keys = await _storage.KeysAsync(cancellationToken);
 
             List<ParsedTokenData> result = new List<ParsedTokenData>();
-            
+
             foreach (string key in keys)
             {
                 result.Add(await _storage.GetAsync<ParsedTokenData>(key, cancellationToken));

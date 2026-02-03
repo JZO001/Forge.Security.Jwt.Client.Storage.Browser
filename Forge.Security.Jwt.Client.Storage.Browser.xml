@@ -40,6 +40,11 @@
             or
             browserStorageOptions</exception>
         </member>
+        <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase"/> class.
+            </summary>
+        </member>
         <member name="M:Forge.Security.Jwt.Client.Storage.Browser.Abstraction.JwtTokenRefreshHostedServiceBase.StartAsync(System.Threading.CancellationToken)">
             <summary>Starts the service</summary>
             <param name="cancellationToken">CancellationToken</param>

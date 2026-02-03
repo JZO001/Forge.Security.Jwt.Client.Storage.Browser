@@ -16,7 +16,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
 {
 
     /// <summary>Automatically refresh the token before it expires</summary>
-    public abstract class JwtTokenRefreshHostedServiceBase : IRefreshTokenService
+    public abstract class JwtTokenRefreshHostedServiceBase : IRefreshTokenService, IDisposable
     {
 
         private readonly ILogger _logger;
@@ -31,6 +31,8 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         private readonly DotNetObjectReference<JwtTokenRefreshHostedServiceBase> _reference;
 
         private ParsedTokenData _parsedTokenData = new ParsedTokenData();
+
+        private bool _disposedValue;
 
         /// <summary>Occurs when authentication required</summary>
         public event EventHandler OnAuthenticationError;
@@ -94,6 +96,14 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             _logger.LogDebug("{Name}.ctor, AuthenticationStateProvider, hash: {Hash}", GetType().Name, authenticationStateProvider.GetHashCode());
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="JwtTokenRefreshHostedServiceBase"/> class.
+        /// </summary>
+        ~JwtTokenRefreshHostedServiceBase()
+        {
+            Dispose(disposing: false);
+        }
+
         /// <summary>Starts the service</summary>
         /// <param name="cancellationToken">CancellationToken</param>
         /// <returns>
@@ -136,8 +146,8 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         [JSInvokable]
         public async Task<string> CallbackReceiveAuthenticationResponseAsync(string authenticationResponseStr)
         {
-            IAuthenticationResponse authenticationResponse = JsonSerializer.Deserialize(authenticationResponseStr, 
-                _browserStorageOptions.AuthenticationResponseType, 
+            IAuthenticationResponse authenticationResponse = JsonSerializer.Deserialize(authenticationResponseStr,
+                _browserStorageOptions.AuthenticationResponseType,
                 new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) as IAuthenticationResponse;
 
             _dataStore.TokenData = _parsedTokenData = await _authenticationStateProvider.ParseTokenAsync(authenticationResponse);
@@ -202,7 +212,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             Assembly assembly = typeof(JwtTokenRefreshHostedServiceBase).Assembly;
             string resourceName = string.Format("{0}.refresh_token_service.js", typeof(JwtTokenRefreshHostedServiceBase).Assembly.GetName().Name);
             string jsScript = string.Empty;
-            
+
             _logger.LogDebug("ConnectToBrowser, resourceName: {ResourceName}", resourceName);
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
@@ -216,14 +226,14 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             await _jsRuntime.InvokeVoidAsync("eval", jsScript);
 
             string refreshUrl = _authCoreOptions.BaseAddress;
-            if (!refreshUrl.EndsWith("/")) refreshUrl = $"{refreshUrl}/";
+            if (!refreshUrl.EndsWith("/", StringComparison.OrdinalIgnoreCase)) refreshUrl = $"{refreshUrl}/";
 
             _logger.LogDebug("ConnectToBrowser, refresh url: {RefreshUrl}", refreshUrl);
             _logger.LogDebug("ConnectToBrowser, invoking JS 'initRefreshTokenService'");
 
-            await _jsRuntime.InvokeVoidAsync("initRefreshTokenService", 
-                _reference, 
-                $"{refreshUrl}{_authCoreOptions.RefreshUri}", 
+            await _jsRuntime.InvokeVoidAsync("initRefreshTokenService",
+                _reference,
+                $"{refreshUrl}{_authCoreOptions.RefreshUri}",
                 (int)_storageMode,
                 _additionalData.SecondaryKeys
                 );
@@ -267,6 +277,22 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             ParsedTokenData result = _dataStore.TokenData;
             if (string.IsNullOrWhiteSpace(result.AccessToken)) result = await _authenticationStateProvider.GetParsedTokenDataAsync();
             return result;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                _reference.Dispose();
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
     }

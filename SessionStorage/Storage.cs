@@ -14,7 +14,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.SessionStorage
         /// <param name="sessionStorage">The session storage.</param>
         public Storage(ILogger<Storage> logger, ISessionStorageServiceAsync sessionStorage) : base(sessionStorage)
         {
-            logger.LogDebug($"Storage.ctor, ISessionStorageServiceAsync, hash: {sessionStorage.GetHashCode()}");
+            logger.LogDebug("Storage.ctor, ISessionStorageServiceAsync, hash: {SessionStorageHash}", sessionStorage.GetHashCode());
         }
 
     }
