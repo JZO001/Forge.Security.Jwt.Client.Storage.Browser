@@ -113,11 +113,11 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         {
             _logger.LogInformation("StartAsync, starting");
 
-            await ConnectToBrowser();
+            await ConnectToBrowser().ConfigureAwait(false);
 
             _authenticationStateProvider.AuthenticationStateChanged += AuthenticationStateChangedEventHandler;
 
-            await ConfigureServiceAsync();
+            await ConfigureServiceAsync().ConfigureAwait(false);
 
             _logger.LogInformation("StartAsync, started");
         }
@@ -150,7 +150,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
                 _browserStorageOptions.AuthenticationResponseType,
                 new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) as IAuthenticationResponse;
 
-            _dataStore.TokenData = _parsedTokenData = await _authenticationStateProvider.ParseTokenAsync(authenticationResponse);
+            _dataStore.TokenData = _parsedTokenData = await _authenticationStateProvider.ParseTokenAsync(authenticationResponse).ConfigureAwait(false);
 
             ReceiveAuthenticationResult result = new ReceiveAuthenticationResult();
             result.ParsedTokenData = _parsedTokenData;
@@ -203,8 +203,8 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         private async void AuthenticationStateChangedEventHandler(Task<AuthenticationState> task)
         {
             _logger.LogInformation("AuthenticationStateChangedEventHandler, authentication state changed");
-            _parsedTokenData = await GetParsedTokenDataAsync();
-            await ConfigureServiceAsync();
+            _parsedTokenData = await GetParsedTokenDataAsync().ConfigureAwait(false);
+            await ConfigureServiceAsync().ConfigureAwait(false);
         }
 
         private async Task ConnectToBrowser()
@@ -218,12 +218,12 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))
             {
-                jsScript = await reader.ReadToEndAsync();
+                jsScript = await reader.ReadToEndAsync().ConfigureAwait(false);
             }
 
             _logger.LogDebug("ConnectToBrowser, invoking JS 'eval', script length: {ScriptLength}", jsScript?.Length);
 
-            await _jsRuntime.InvokeVoidAsync("eval", jsScript);
+            await _jsRuntime.InvokeVoidAsync("eval", jsScript).ConfigureAwait(false);
 
             string refreshUrl = _authCoreOptions.BaseAddress;
             if (!refreshUrl.EndsWith("/", StringComparison.OrdinalIgnoreCase)) refreshUrl = $"{refreshUrl}/";
@@ -236,11 +236,11 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
                 $"{refreshUrl}{_authCoreOptions.RefreshUri}",
                 (int)_storageMode,
                 _additionalData.SecondaryKeys
-                );
+                ).ConfigureAwait(false);
 
             _logger.LogDebug("ConnectToBrowser, invoking JS 'initRefreshTokenService'");
 
-            _parsedTokenData = await GetParsedTokenDataAsync();
+            _parsedTokenData = await GetParsedTokenDataAsync().ConfigureAwait(false);
         }
 
         private async Task ConfigureServiceAsync()
@@ -251,14 +251,14 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
             {
                 // token has already expired
                 _logger.LogInformation("ConfigureServiceAsync, refresh token expired. It is not possible to regenerate the current access token, if it exists.");
-                await _jsRuntime.InvokeVoidAsync("stopRefreshTokenService");
+                await _jsRuntime.InvokeVoidAsync("stopRefreshTokenService").ConfigureAwait(false);
             }
             else
             {
                 // start timer
                 int dueTime = GetDueTimeForService();
                 _logger.LogInformation("ConfigureServiceAsync, timer due time value: {DueTime} ms", dueTime);
-                await _jsRuntime.InvokeVoidAsync("startRefreshTokenService", dueTime.ToString());
+                await _jsRuntime.InvokeVoidAsync("startRefreshTokenService", dueTime.ToString()).ConfigureAwait(false);
             }
         }
 
@@ -275,7 +275,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         private async Task<ParsedTokenData> GetParsedTokenDataAsync()
         {
             ParsedTokenData result = _dataStore.TokenData;
-            if (string.IsNullOrWhiteSpace(result.AccessToken)) result = await _authenticationStateProvider.GetParsedTokenDataAsync();
+            if (string.IsNullOrWhiteSpace(result.AccessToken)) result = await _authenticationStateProvider.GetParsedTokenDataAsync().ConfigureAwait(false);
             return result;
         }
 

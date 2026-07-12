@@ -29,7 +29,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         /// <param name="cancellationToken">The cancellation token.</param>
         public async Task ClearAsync(CancellationToken cancellationToken = default)
         {
-            await _storage.ClearAsync(cancellationToken);
+            await _storage.ClearAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>Determines whether the specified key exist or not.</summary>
@@ -39,7 +39,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         ///   <c>true</c> if the specified key exists; otherwise, <c>false</c>.</returns>
         public async Task<bool> ContainsKeyAsync(string key, CancellationToken cancellationToken = default)
         {
-            return await _storage.ContainsKeyAsync(key, cancellationToken);
+            return await _storage.ContainsKeyAsync(key, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>Gets stored data</summary>
@@ -47,13 +47,13 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         /// <returns>List of data</returns>
         public async Task<IEnumerable<ParsedTokenData>> GetAsync(CancellationToken cancellationToken = default)
         {
-            IEnumerable<string> keys = await _storage.KeysAsync(cancellationToken);
+            IEnumerable<string> keys = await _storage.KeysAsync(cancellationToken).ConfigureAwait(false);
 
             List<ParsedTokenData> result = new List<ParsedTokenData>();
 
             foreach (string key in keys)
             {
-                result.Add(await _storage.GetAsync<ParsedTokenData>(key, cancellationToken));
+                result.Add(await _storage.GetAsync<ParsedTokenData>(key, cancellationToken).ConfigureAwait(false));
             }
 
             return result;
@@ -65,7 +65,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         /// <returns>Data or default</returns>
         public async Task<ParsedTokenData> GetAsync(string key, CancellationToken cancellationToken = default)
         {
-            return await _storage.GetAsync<ParsedTokenData>(key, cancellationToken);
+            return await _storage.GetAsync<ParsedTokenData>(key, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>Removes an item from the storage</summary>
@@ -74,8 +74,11 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         /// <returns>True, if it was successful, otherwise, False.</returns>
         public async Task<bool> RemoveAsync(string key, CancellationToken cancellationToken = default)
         {
-            bool result = await _storage.ContainsKeyAsync(key, cancellationToken);
-            await _storage.RemoveAsync(key, cancellationToken);
+            bool result = await _storage.ContainsKeyAsync(key, cancellationToken).ConfigureAwait(false);
+            if (result)
+            {
+                await _storage.RemoveAsync(key, cancellationToken).ConfigureAwait(false);
+            }
             return result;
         }
 
@@ -85,7 +88,7 @@ namespace Forge.Security.Jwt.Client.Storage.Browser.Abstraction
         /// <param name="cancellationToken">The cancellation token.</param>
         public async Task SetAsync(string key, ParsedTokenData data, CancellationToken cancellationToken = default)
         {
-            await _storage.SetAsync<ParsedTokenData>(key, data, cancellationToken);
+            await _storage.SetAsync<ParsedTokenData>(key, data, cancellationToken).ConfigureAwait(false);
         }
 
     }
